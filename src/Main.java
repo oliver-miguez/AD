@@ -6,7 +6,8 @@ public class Main{
         //eDirectorio("/home/dam/Documentos/AD");
         //eFicheiro("/home/dam/Documentos/AD");
         //creaDirectorio("/home/dam/Documentos/AD/P1-1");
-        creaFicheiro("C:\\Users\\olimi\\Desktop\\2ºDam\\AD","ArchivoCreadoPorCódigo");
+        //creaFicheiro("C:\\Users\\olimi\\Desktop\\2ºDam\\AD","ArchivoCreadoPorCódigo");
+        modoAcceso("C:\\Users\\olimi\\Desktop\\2ºDam\\AD","SePuedeLeerOEscribir");
     }//en static
 
 
@@ -44,5 +45,20 @@ public class Main{
             System.out.println("Problemas con la creación del archivo");
         }
 
+    }
+    public static void modoAcceso(String dirName, String fileName) throws IOException {
+        File directorio = new File(dirName,fileName);
+        if(directorio.createNewFile()){
+            if(directorio.canRead()){
+                System.out.println("Se puede leer");
+            }else{
+                System.out.println("No puede leer");
+            }
+            if(directorio.canWrite()){
+                System.out.println("Se puede escribir");
+            }else{
+                System.out.println("No se puede escribir");
+            }
+        }
     }
 }//end class
