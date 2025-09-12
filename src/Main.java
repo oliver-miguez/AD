@@ -40,13 +40,7 @@ public class Main {
             teclado.nextLine();
 
             switch (opcion) {
-                case 1:
-                    if (eDirectorio(directorioBase)) {
-                        System.out.println("¡Es un directorio!");
-                    } else {
-                        System.out.println("No es un directorio.");
-                    }
-                    break;
+
                 case 2:
                     File archivoCompleto = new File(directorioBase, archivoBase);
                     if (eFicheiro(archivoCompleto.getAbsolutePath())) {
@@ -98,12 +92,12 @@ public class Main {
     }
 
 
-    public static boolean eDirectorio(String cadea){
+    public static void eDirectorio(String cadea){
         File archivo = new File(cadea);
         if(archivo.isDirectory()){
-            return true;
+            System.out.println("\n Es directorio");
         }else{
-            return false;
+            System.out.println("\n No es directorio");
         }
     }
     public static boolean eFicheiro(String cadea){
@@ -118,8 +112,10 @@ public class Main {
     public static void creaDirectorio(String cadea){
         File archivo = new File(cadea);
         boolean creado = archivo.mkdir();
+        String ruta = archivo.getPath();
         if(creado){
             System.out.printf("Archivo creado");
+            eDirectorio(ruta);
         }else{
             System.out.println("No se ha creado");
         }
