@@ -6,11 +6,15 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Scanner teclado = new Scanner(System.in);
         int opcion;
-
+        /** Modificar las rutas para que funcione correctamente*/
         // Aquí defines las rutas fijas para tus pruebas
+        //Ruta Principal
         String directorioBase = "/home/dam/Documentos/AD/P1-1 Ficheiros/src";
+        //Ruta utilizada para probrar el delete()
         String directorioBorrar = "/home/dam/Documentos/AD/P1-1 Ficheiros/src/NuevoDir";
+        //Ruta para probar el contenido de los directorios / Tienes que crear una carpeta con sub carpetas y esas sub carpetas con más carpetas dentro
         String directorio11 = "/home/dam/Documentos/AD/P1-1 Ficheiros/src/Objetos para eje 11";
+        //Nombre para el archivo general
         String archivoBase = "ArchivoCreadoPorCódigo";
 
         do {
