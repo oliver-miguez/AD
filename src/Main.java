@@ -10,6 +10,7 @@ public class Main {
         // Aquí defines las rutas fijas para tus pruebas
         String directorioBase = "/home/dam/Documentos/AD/P1-1 Ficheiros/src";
         String directorioBorrar = "/home/dam/Documentos/AD/P1-1 Ficheiros/src/NuevoDir";
+        String directorio11 = "/home/dam/Documentos/AD/P1-1 Ficheiros/src/Objetos para eje 11";
         String archivoBase = "ArchivoCreadoPorCódigo";
 
         do {
@@ -27,6 +28,8 @@ public class Main {
             System.out.println("8.  Establecer modo de escritura");
             System.out.println("9.  Borrar archivo");
             System.out.println("10. Borrar directorio");
+            System.out.println("11. Contido dun directorio");
+            System.out.println("12. Recur");
             System.out.println("0.  Salir");
             System.out.print("Elige una opción: ");
             opcion = teclado.nextInt();
@@ -71,6 +74,12 @@ public class Main {
                     break;
                 case 10:
                     borrarDirectorio(directorioBorrar);
+                    break;
+                case 11:
+                    mContido(directorio11);
+                    break;
+                case 12:
+                    recur(directorio11);
                     break;
                 case 0:
                     System.out.println("cerrando");
@@ -186,6 +195,33 @@ public class Main {
             System.out.println("Borrado");
         }else{
             System.out.println("No borrado");
+        }
+    }
+    public static void mContido(String dirName){
+        File archivo = new File(dirName);
+        String[] contidoArchivo = archivo.list();
+        for(int i = 0; i<contidoArchivo.length; i++){
+            System.out.println(contidoArchivo[i]);
+        }
+    }
+    /**
+     * 1º La carpeta principal, accede a su contenido a través de .list() y imprime los nombre de archivos y carpetas que tiene dentro
+     * 2º Recorremos todas las carpetas que estaban en la primera
+     * 3º Vuelve a buscar una carpeta pero esta vez que tenga algún nombre de "c", c son todos los nombres de las carpetas que tenia almacenado la primera
+     * 4º Verifica que sean carpetas
+     * 5º Si son carpetas vuelve a ejecutar el metodo pero en este caso con una nueva ruta, la ruta de cada una de las carpetas que tenia la primera
+     *  Y asi sucesivamente si estas carpetas tienen más carpetas dentro de ellas
+     * @param File ruta de la carpeta inicial
+     */
+    public static void recur(String File){
+        File archivo = new File(File);
+        String[] contido = archivo.list();
+        for(String c : contido){
+            System.out.println(c);
+            File archivo2 = new File(File,c);
+            if(archivo2.isDirectory()){
+                recur(archivo2.getPath());
+            }
         }
     }
 
