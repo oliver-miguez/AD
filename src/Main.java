@@ -56,7 +56,7 @@ public class Main {
                     }
                     break;
                 case 3:
-                    creaDirectorio(directorioBase + "/NuevoDir");
+                    creaDirectorio(directorioBase + "/ArquivosDir");
                     break;
                 case 4:
                     creaFicheiro(directorioBase, archivoBase);
