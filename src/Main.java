@@ -1,7 +1,7 @@
 import java.io.File;
 import java.io.IOException;
 
-public class Main{
+public class Main {
     public static void main(String[] args) throws IOException {
         //eDirectorio("/home/dam/Documentos/AD");
         //eFicheiro("/home/dam/Documentos/AD");
@@ -9,7 +9,8 @@ public class Main{
         //creaFicheiro("C:\\Users\\olimi\\Desktop\\2ºDam\\AD","ArchivoCreadoPorCódigo");
         //modoAcceso("C:\\Users\\olimi\\Desktop\\2ºDam\\AD","SePuedeLeerOEscribir");
         //calculaLonxitude("C:\\Users\\olimi\\Desktop\\2ºDam\\AD","OtroArchivo");
-         mLectura("C:\\Users\\olimi\\Desktop\\2ºDam\\AD","ArchivoCreadoPorCódigo");
+         //mLectura("C:\\Users\\olimi\\Desktop\\2ºDam\\AD","ArchivoCreadoPorCódigo");
+         mEscritura("/home/dam/Documentos/AD/P1-1 Ficheiros/src","mEscritura");
     }//en static
 
 
@@ -78,20 +79,13 @@ public class Main{
             System.out.println("Error, creo que esto no va bien ");
         }
     }
-
-    /**
-    //8) método mEscritura (dirName, fileName)
-    //Dada a ruta e nome dun arquivo, este método debe facer posible escribir no arquivo.
-    public static void mEscritura(String dirName, String fileName){
+    public static void mEscritura(String dirName, String fileName) throws IOException {
         File archivo = new File(dirName,fileName);
-        boolean correcto = archivo;
-        if(correcto){
-            System.out.println("El directorio se puede leer");
-        }else{
-            System.out.println("Error, creo que esto no va bien ");
+        if(archivo.createNewFile()){
+            boolean permiso = archivo.setWritable(true); //modificar con true o false dependiendo si queremos que se pueda o no escribir
         }
+
     }
-*/
-}
+
 
 }//end class
