@@ -17,64 +17,56 @@ public class Main {
         //Nombre para el archivo general
         String archivoBase = "ArchivoCreadoPorCódigo";
 
+        String ruta = "";
+
+
         do {
             System.out.println("--- MENÚ DE OPERACIONES DE ARCHIVOS ---");
-            System.out.println("Ruta de prueba: " + directorioBase);
-            System.out.println("Archivo de prueba: " + archivoBase);
-            System.out.println("------------------------------------");
-            System.out.println("1.  Comprobar si es un directorio");
-            System.out.println("2.  Comprobar si es un archivo");
-            System.out.println("3.  Crear directorio");
-            System.out.println("4.  Crear archivo");
-            System.out.println("5.  Mostrar modo de acceso (lectura/escritura)");
-            System.out.println("6.  Calcular tamaño en bytes");
-            System.out.println("7.  Establecer modo de solo lectura");
-            System.out.println("8.  Establecer modo de escritura");
-            System.out.println("9.  Borrar archivo");
-            System.out.println("10. Borrar directorio");
-            System.out.println("11. Contido dun directorio");
-            System.out.println("12. Recur");
-            System.out.println("0.  Salir");
             System.out.print("Elige una opción: ");
             opcion = teclado.nextInt();
             teclado.nextLine();
 
             switch (opcion) {
-
-                case 2:
-                    File archivoCompleto = new File(directorioBase, archivoBase);
-                    if (eFicheiro(archivoCompleto.getAbsolutePath())) {
-                        System.out.println("¡Es un archivo!");
-                    } else {
-                        System.out.println("No es un archivo.");
-                    }
-                    break;
-                case 3:
+                case 1:
+                    //crea el fichero en una ruta especifica de nuestro dispositivo con ese nombre
                     creaDirectorio(directorioBase + "/ArquivosDir");
                     break;
+                case 2:
+                    //recoge la ruta de la carpeta creada anteriormente y crea el archivo en base a esa ruta y a ese nombre
+                    ruta = creaDirectorio(directorioBase + "/ArquivosDir");
+                    creaFicheiro(ruta,"Productos1");
+                    break;
+                case 3:
+                    // 1º Recoge la ruta de la primera carpeta creada anteriormente
+                    // 2º Con esa ruta crea una nueva carpeta dentro de la anterior
+                    // 3º Recoge ahora la nueva ruta de la nueva carpeta y crea un nuevo fichero dentro de ella
+                    ruta = creaDirectorio((directorioBase+"/ArquivosDir"));
+                    creaDirectorio(ruta + "/Subdir");
+                    String ruta2 = creaDirectorio(ruta+"/Subdir");
+                    creaFicheiro(ruta2 , "Productos2");
+                    break;
                 case 4:
-                    creaFicheiro(directorioBase, archivoBase);
+                    //Recoge la ruta de la carpeta y llama al metodo recur con esa ruta
+                    ruta = creaDirectorio(directorioBase + "/ArquivosDir");
+                    recur(ruta);
                     break;
                 case 5:
-                    modoAcceso(directorioBase, archivoBase);
+                    ruta = creaDirectorio(directorioBase + "/ArquivosDir");
+                    mLectura(ruta,"Productos1");
+                    mEscritura(ruta, "Productos1");
+                    calculaLonxitude(ruta, "Productos1");
                     break;
                 case 6:
-                    calculaLonxitude(directorioBase, archivoBase);
+                    ruta = creaDirectorio(directorioBase + "/ArquivosDir");
+                    mSoloLectura(ruta,"Productos1");
                     break;
                 case 7:
-                    mLectura(directorioBase, archivoBase);
+                    ruta = creaDirectorio(directorioBase + "/ArquivosDir");
+                    mSoloEscritura(ruta,"Productos1");
                     break;
                 case 8:
-                    mEscritura(directorioBase, archivoBase);
-                    break;
-                case 9:
-                    borraFicheiro(directorioBase, archivoBase);
-                    break;
-                case 10:
-                    borrarDirectorio(directorioBorrar);
-                    break;
-                case 11:
-                    mContido(directorio11);
+                    ruta = creaDirectorio(directorioBase + "/ArquivosDir");
+                    borrarDirectorio(ruta);
                     break;
                 case 12:
                     recur(directorio11);
@@ -91,7 +83,6 @@ public class Main {
         teclado.close();
     }
 
-
     public static void eDirectorio(String cadea){
         File archivo = new File(cadea);
         if(archivo.isDirectory()){
@@ -100,35 +91,64 @@ public class Main {
             System.out.println("\n No es directorio");
         }
     }
-    public static boolean eFicheiro(String cadea){
+    public static String eFicheiro(String cadea){
         File archivo = new File(cadea);
         if(archivo.isFile()){
-            return true;
+            return "Es un ficheiro";
         }else{
-            return false;
+            return "No es un ficheiro";
         }
 
     }
-    public static void creaDirectorio(String cadea){
+
+    /**
+     * 1º Creamos un objeto File que a traves del metodo mkdir utilizamos para crear el directorio
+     * 2º Guardamos la ruta, util para próximos apartados
+     * 3ªCon un Booleano verificamos si se ha creado o si no, los mostramos con un print() y a traves del eDirectorio(en el apartado 1)
+     * verificamos si existe o si no
+     * @param cadea Ruta de creación del Directorio
+     * @return
+     */
+    public static String creaDirectorio(String cadea){
         File archivo = new File(cadea);
         boolean creado = archivo.mkdir();
         String ruta = archivo.getPath();
         if(creado){
             System.out.printf("Archivo creado");
             eDirectorio(ruta);
+            return ruta;
         }else{
-            System.out.println("No se ha creado");
+            System.out.println("El arquivo no se a creado porque ya existe");
+            return ruta;
         }
     }
+
+    /**
+     * 1º Crea un objeto Fichero que recoge tanto la ruta en la que se quiere crear como el nombre que va a recibir
+     * 2º En caso de que no exista , crea y verifica que si se ha creado ,es un archivo, utilizando el metodo isFile()
+     * 3º Muestra el resultado
+     * @param dirName ruta de la carpeta donde se quiere crear
+     * @param fileName Nombre que recibirá el archivo
+     * @throws IOException Excepción para que funcione
+     */
     public static void creaFicheiro(String dirName, String fileName) throws IOException {
         File archivo = new File(dirName,fileName);
         if(archivo.createNewFile()){
-            System.out.println("Archivo creado correctamente en el directorio");
+            boolean fich = archivo.isFile();
+            System.out.println("Fichero creado correctamente en el directorio");
+            if(fich) {
+                System.out.println("Es un fichero");
+            }else{
+                System.out.println("No es un fichero");
+            }
         }else{
-            System.out.println("Problemas con la creación del archivo");
+            System.out.println("No se ha creado fichero, ya existe");
+
+
         }
 
     }
+
     public static void modoAcceso(String dirName, String fileName) throws IOException {
         File directorio = new File(dirName,fileName);
         if(directorio.createNewFile()){
@@ -155,38 +175,76 @@ public class Main {
             }
         }
     }
+
+    /**
+     * Calcula el total de bytes que tiene el archivo a traves del metodo .length()
+     * @param dirName ruta carpeta
+     * @param fileName nombre archivo el cual se calculará el total de bytes
+     */
     public static void calculaLonxitude(String dirName, String fileName){
         long longitudBytes = 0;
         File directorio = new File(dirName,fileName);
         longitudBytes =  directorio.length();
         System.out.println("Total de bytes:"+ longitudBytes);
     }
+
+    /**
+     * A traves del metodo setReadOnly() solo podremos leer el archivo y no modificarlo
+     * @param dirName ruta de la carpeta
+     * @param fileName nombre del archivo
+     */
     public static void mLectura(String dirName, String fileName){
+        File archivo = new File(dirName,fileName);
+        boolean correcto = archivo.canRead();
+        if(correcto){
+            System.out.println("Ahora solo se puede leer");
+        }else{
+            System.out.println("Se puede leer");
+        }
+    }
+
+    public static void mSoloLectura(String dirName, String fileName){
         File archivo = new File(dirName,fileName);
         boolean correcto = archivo.setReadOnly();
         if(correcto){
-            System.out.println("El directorio se puede leer");
+            System.out.println("Ahora solo se puede leer");
         }else{
-            System.out.println("Error, creo que esto no va bien ");
+            System.out.println("Se puede leer");
         }
     }
-    public static boolean mEscritura(String dirName, String fileName) throws IOException {
+
+    /**
+     * A traves del metodo canWrite permite comprobar si el archivo se puede leer
+     * @param dirName ruta de la carpeta
+     * @param fileName nombre del archivo
+     * @throws IOException excepcion necesaria
+     */
+    public static void mEscritura(String dirName, String fileName) throws IOException {
+        File archivo = new File(dirName,fileName);
+        boolean permiso = archivo.canWrite();
+        if(permiso) {
+            System.out.println("Puede escribir");
+        }else {
+            System.out.println("No puede Escribir");
+        }
+    }
+
+    /**
+     * A traves del metodo setWritable permite escribir en el archivo
+     * @param dirName ruta de la carpeta
+     * @param fileName nombre del archivo
+     */
+    public static boolean mSoloEscritura(String dirName, String fileName) {
         File archivo = new File(dirName,fileName);
         boolean permiso = archivo.setWritable(true);
-        return permiso;
+        System.out.println("Ahora se puede escribir");
+        return  permiso;
+    }
 
-    }
-    public static void borraFicheiro(String dirName, String fileName) throws IOException {
-        File archivo = new File(dirName,fileName);{
-            System.out.println("Nombre del archivo: " + fileName);
-            boolean borrar = archivo.delete();
-            if(borrar){
-                System.out.println("borrado");
-            }else{
-                System.out.println("No se ha borrado");
-            }
-        }
-    }
+    /**
+     * Permite borrar la carpeta seleccionada
+     * @param dirName nombre carpeta
+     */
     public static void borrarDirectorio(String dirName){
         File archivo = new File(dirName);
         System.out.println("Nombre directorio:"+dirName);
@@ -197,6 +255,12 @@ public class Main {
             System.out.println("No borrado");
         }
     }
+
+    /**
+     * 1º Crea un objeto File que recoge una ruta de una carpeta
+     * 2º A traves del metodo .list() comprueba los archivos que contiene esa carpeta
+     * @param dirName ruta del directorio
+     */
     public static void mContido(String dirName){
         File archivo = new File(dirName);
         String[] contidoArchivo = archivo.list();
@@ -204,6 +268,7 @@ public class Main {
             System.out.println(contidoArchivo[i]);
         }
     }
+
     /**
      * 1º La carpeta principal, accede a su contenido a través de .list() y imprime los nombre de archivos y carpetas que tiene dentro
      * 2º Recorremos todas las carpetas que estaban en la primera
