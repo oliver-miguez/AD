@@ -12,7 +12,6 @@ public class Apartado3 {
 
         int i = 0; //iterador
         int calculo =  0;
-
         //Muestra 3 veces el texto
         while (i < 3) {
             System.out.println("Copiando a cadea: "+ texto);

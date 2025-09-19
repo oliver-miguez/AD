@@ -39,7 +39,6 @@ public class Apartado2Eje3 {
         bos.close();
     }
 }
-
 /**
  * Eje 4, No noto la diferencia porque es un proceso muy rápido
  */
