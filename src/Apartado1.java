@@ -3,11 +3,23 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class Main {
+public class Apartado1 {
     public static void main(String[] args) throws IOException {
+        //RUTAS
         String ruta1 = "src/texto1.txt";
         String ruta2 = "src/texto2.txt";
 
+        copiar(ruta1,ruta2);
+
+    }
+
+    /**
+     * Copia el texto del archivo 1 y lo pega en el archivo 2
+     * @param ruta1 txt con texto a copiar
+     * @param ruta2 donde se pegaré el texto
+     * @throws IOException necesaria
+     */
+    public static void copiar(String ruta1, String ruta2) throws IOException {
         FileInputStream fis = new FileInputStream(ruta1);
         FileOutputStream fos = new FileOutputStream(ruta2,true); //si añadimos el true, no borrará los archivos del texto2
 
